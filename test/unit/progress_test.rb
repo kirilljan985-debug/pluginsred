@@ -49,7 +49,9 @@ class RedmineProgressBarsProgressTest < ActiveSupport::TestCase
 
   test 'for_project computes over project issues' do
     project = Project.create!(:name => 'rpbb-test', :identifier => 'rpbb-test')
-    project.trackers << Tracker.first # иначе Issue не пройдёт валидацию трекера
+    # Redmine может сам привязать трекеры к новому проекту — добавляем идемпотентно,
+    # иначе Issue не пройдёт валидацию трекера (project.trackers.include?)
+    project.trackers << Tracker.first unless project.trackers.include?(Tracker.first)
     common = {
       :project => project,
       :tracker => Tracker.first,

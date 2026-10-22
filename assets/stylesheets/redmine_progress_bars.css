@@ -49,3 +49,20 @@ td.rpbb-cell .rpbb-no-issues {
   color: #6d6d6d;
   font-style: italic;
 }
+
+/* Карточное представление списка проектов (board) */
+
+#projects-index .rpbb-bar {
+  margin-top: 4px;
+  max-width: 420px;
+}
+
+#projects-index .rpbb-bar .rpbb-track {
+  height: 10px;
+  margin: 2px 0;
+}
+
+#projects-index .rpbb-bar .rpbb-meta {
+  font-size: 0.9em;
+  color: #6d6d6d;
+}

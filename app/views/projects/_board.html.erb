@@ -1,0 +1,33 @@
+<%# Основано на логике render_project_hierarchy из Redmine 7.0 (GPL-2.0-or-later) %>
+<%# и на шаблоне app/views/projects/_board.html.erb. Добавлен прогресс-бар к каждой карточке. %>
+<%# При обновлении Redmine сверять с новой версией ядра. %>
+<%= stylesheet_link_tag 'redmine_progress_bars', plugin: :redmine_progress_bars %>
+<div id="projects-index">
+  <% bookmarked_project_ids = User.current.bookmarked_project_ids %>
+  <%= render_project_nested_lists(@entries) do |project| %>
+    <% classes = project.css_classes.split %>
+    <% classes += %w(icon icon-user my-project) if User.current.member_of?(project) %>
+    <% classes += %w(icon icon-bookmarked-project) if bookmarked_project_ids.include?(project.id) %>
+    <% s = link_to_project(project, {}, :class => classes.uniq.join(' ')) %>
+    <% s << tag.span(sprite_icon('user', l(:label_my_projects), icon_only: true), class: 'icon-only icon-user my-project') if User.current.member_of?(project) %>
+    <% s << tag.span(sprite_icon('bookmarked', l(:label_my_bookmarks), icon_only: true), class: 'icon-only icon-bookmarked-project') if bookmarked_project_ids.include?(project.id) %>
+    <% if project.description.present? %>
+      <% s << content_tag('div', textilizable(project, :short_description, :project => project), :class => 'wiki description') %>
+    <% end %>
+    <% progress = RedmineProgressBars::Progress.for_project(project) if project.is_a?(Project) && User.current.allowed_to?(:view_issues, project) %>
+    <% if progress %>
+      <% track = content_tag('div',
+                             content_tag('div', '', :class => 'rpbb-fill', :style => "width: #{progress[:percent]}%"),
+                             :class => 'rpbb-track', :role => 'progressbar',
+                             :aria => { :valuemin => 0, :valuemax => 100, :valuenow => progress[:percent] }) %>
+      <% meta = content_tag('span',
+                            content_tag('span', "#{progress[:percent]}%", :class => 'rpbb-percent') <<
+                            l(:rpbb_label_issues_summary, closed: progress[:closed], total: progress[:total]),
+                            :class => 'rpbb-meta') %>
+      <% s << content_tag('div', track << meta, :class => 'rpbb-bar') %>
+    <% else %>
+      <% s << content_tag('div', content_tag('span', l(:rpbb_label_no_issues), :class => 'rpbb-no-issues'), :class => 'rpbb-bar') %>
+    <% end %>
+    <% s %>
+  <% end %>
+</div>
