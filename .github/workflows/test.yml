@@ -41,5 +41,12 @@ jobs:
         working-directory: redmine
 
       - name: Run plugin tests
-        run: bundle exec rake redmine:plugins:test NAME=redmine_progress_bars RAILS_ENV=test
+        run: |
+          set -o pipefail
+          bundle exec rake redmine:plugins:test NAME=redmine_progress_bars RAILS_ENV=test 2>&1 | tee /tmp/test_output.log
         working-directory: redmine
+
+      - name: Report failure details
+        if: failure()
+        run: |
+          echo "::error::$(python3 -c "import urllib.parse; data = open('/tmp/test_output.log', 'rb').read()[-4000:].decode('utf-8', 'replace'); print(urllib.parse.quote(data)[:6000])")"
