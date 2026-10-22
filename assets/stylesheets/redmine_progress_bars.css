@@ -1,0 +1,51 @@
+/* Redmine Progress Bars plugin */
+
+.rpbb-track {
+  background: #dbdbdb;
+  border-radius: 3px;
+  height: 12px;
+  overflow: hidden;
+  margin: 6px 0 4px;
+}
+
+.rpbb-fill {
+  background: #4b7399;
+  height: 100%;
+}
+
+.rpbb-meta {
+  margin: 2px 0 0;
+  font-size: 0.9em;
+  color: #6d6d6d;
+}
+
+.rpbb-percent {
+  font-weight: bold;
+  margin-right: 6px;
+}
+
+/* Строка в таблице списка проектов */
+
+table.list.projects th.rpbb-cell {
+  text-align: left;
+  vertical-align: bottom;
+}
+
+table.list.projects td.rpbb-cell {
+  width: 18%;
+  min-width: 140px;
+}
+
+table.list.projects td.rpbb-cell .rpbb-track {
+  height: 10px;
+  margin: 2px 0;
+}
+
+table.list.projects td.rpbb-cell .rpbb-meta {
+  display: block;
+}
+
+td.rpbb-cell .rpbb-no-issues {
+  color: #6d6d6d;
+  font-style: italic;
+}

@@ -1,0 +1,17 @@
+<% progress = @project &&
+              User.current.allowed_to?(:view_issues, @project) &&
+              RedmineProgressBars::Progress.for_project(@project) %>
+<% if progress %>
+  <%= stylesheet_link_tag 'redmine_progress_bars', plugin: :redmine_progress_bars %>
+  <div class="box rpbb" id="rpbb-project-overview">
+    <h3><%= l(:rpbb_label_progress) %></h3>
+    <div class="rpbb-track" role="progressbar" aria-valuemin="0" aria-valuemax="100"
+         aria-valuenow="<%= progress[:percent] %>">
+      <div class="rpbb-fill" style="width: <%= progress[:percent] %>%"></div>
+    </div>
+    <p class="rpbb-meta">
+      <span class="rpbb-percent"><%= progress[:percent] %>%</span>
+      <%= l(:rpbb_label_issues_summary, closed: progress[:closed], total: progress[:total]) %>
+    </p>
+  </div>
+<% end %>

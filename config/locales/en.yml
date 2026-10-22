@@ -1,0 +1,5 @@
+en:
+  rpbb_label_progress: "Progress"
+  rpbb_column_progress: "Progress"
+  rpbb_label_issues_summary: "%{closed} of %{total} issues closed"
+  rpbb_label_no_issues: "No issues"

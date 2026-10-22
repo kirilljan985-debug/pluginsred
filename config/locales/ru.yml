@@ -1,0 +1,5 @@
+ru:
+  rpbb_label_progress: "Прогресс"
+  rpbb_column_progress: "Прогресс"
+  rpbb_label_issues_summary: "закрыто задач: %{closed} из %{total}"
+  rpbb_label_no_issues: "Нет задач"
